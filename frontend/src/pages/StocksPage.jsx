@@ -39,15 +39,15 @@ const StocksTable = ({ data }) => {
   return (
     <Box width={'80%'}>
       <TableContainer component={Paper} style={{ maxHeight: 900 }}>
-        <Table stickyHeader>
+        <Table sx={{ tableLayout: 'fixed' }}>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '10%' }}>Symbol</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '20%' }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '5%' }}>Symbol</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '35%' }}>Name</TableCell>
               <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '20%' }}>Sector</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '20%' }}>Industry</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '15%' }}>Market Cap</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '15%' }}>Current Price</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '30%' }}>Industry</TableCell>
+              {/* <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '15%' }}>Market Cap</TableCell> */}
+              <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: '10%' }}>Current Price</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -55,10 +55,10 @@ const StocksTable = ({ data }) => {
               <TableRow key={stock.symbol}>
                 <TableCell sx={{ width: '5%' }}>{stock.symbol}</TableCell>
                 <TableCell sx={{ width: '35%' }}>{stock.name}</TableCell>
-                <TableCell sx={{ width: '10%' }}>{stock.sector}</TableCell>
+                <TableCell sx={{ width: '20%' }}>{stock.sector}</TableCell>
                 <TableCell sx={{ width: '30%' }}>{stock.industry}</TableCell>
-                <TableCell sx={{ width: '15%' }}>{stock.market_cap}</TableCell>
-                <TableCell sx={{ width: '5%' }}>{stock.current_price}</TableCell>
+                {/* <TableCell sx={{ width: '15%' }}>{stock.market_cap}</TableCell> */}
+                <TableCell sx={{ width: '10%' }}>{stock.current_price}$</TableCell>
               </TableRow>
             ))}
           </TableBody>
