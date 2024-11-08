@@ -1,6 +1,7 @@
 // src/pages/StocksPage.jsx
 import React, { useState } from 'react';
 import { useStocks } from '../hooks/useStocks';
+import BaseBox from '../components/BaseBox';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, TablePagination } from '@mui/material';
 
 const StocksPage = () => {
@@ -10,16 +11,10 @@ const StocksPage = () => {
   if (error) return <div>Error loading stocks</div>;
 
   return (
-    <Box 
-      className="base"
-      display={'flex'}
-      justifyContent={'center'}
-      alignItems={'center'}
-      flexDirection={'column'}
-      height={'100vh'}
+    <BaseBox
     >
       <StocksTable data={data} />
-    </Box>
+    </BaseBox>
   );
 };
 

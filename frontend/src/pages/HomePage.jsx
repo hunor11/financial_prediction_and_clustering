@@ -1,7 +1,8 @@
 // src/pages/HomePage.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
+import BaseBox from '../components/BaseBox';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -11,12 +12,13 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to the Stock Information App</h1>
-      <Button variant="contained" color="primary" onClick={handleNavigate}>
-        Go to Stocks Page
-      </Button>
-    </div>
+    <BaseBox>
+      <Box
+        height={'30%'}
+      >
+        <h1>Welcome to the Stock Information App</h1>
+      </Box>
+    </BaseBox>
   );
 };
 
