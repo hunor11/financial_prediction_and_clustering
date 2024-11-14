@@ -25,6 +25,13 @@ class Command(BaseCommand):
                             'market_cap': stock_data.get('marketCap', None),
                             'current_price': stock_data.get('currentPrice', None),
                             'last_updated': timezone.now(),
+                            'description': stock_data.get('longBusinessSummary', ''),
+                            'ceo': stock_data.get('ceo', ''),
+                            'headquarters': stock_data.get('address1', ''),
+                            'founded': stock_data.get('founded', None),
+                            'pe_ratio': stock_data.get('trailingPE', None),
+                            'dividend_yield': stock_data.get('dividendYield', None),
+                            'eps': stock_data.get('trailingEps', None),
                         }
                     )
                     print(f"Saved {symbol}")

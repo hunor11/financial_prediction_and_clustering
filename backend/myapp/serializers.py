@@ -3,13 +3,20 @@ from rest_framework import serializers
 from .models import Stock, CurrencyRate
 
 
-class StockSerializer(serializers.ModelSerializer):
+class StockListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
-        fields = '__all__'  # Serialize all fields of the Stock model
+        fields = ['symbol', 'name', 'sector', 'industry',
+                  'market_cap', 'current_price', 'last_updated']
+
+
+class StockDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stock
+        fields = '__all__'
 
 
 class CurrencyRateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrencyRate
-        fields = '__all__'  # Serialize all fields of the CurrencyRate model
+        fields = '__all__'

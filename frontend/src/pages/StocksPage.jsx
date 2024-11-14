@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useStocks } from '../hooks/useStocks';
 import BaseBox from '../components/BaseBox';
 import StocksFilter from '../components/StocksFilter';
+import StockDetail from '../components/StockDetail';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, TablePagination, TableSortLabel, Typography } from '@mui/material';
 
 const StocksPage = () => {
@@ -12,6 +13,8 @@ const StocksPage = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filters, setFilters] = useState({ symbol: '', name: '', sector: '', industry: '', price: [0, 1000] });
+  const [selectedStock, setSelectedStock] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const columnWidths = {
     symbol: '10%',
@@ -43,6 +46,16 @@ const StocksPage = () => {
     setPage(0);
   };
 
+  const handleRowClick = (symbol) => {
+    setSelectedStock(symbol);
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setSelectedStock(null);
+  };
+
   const filteredData = data.filter((stock) => {
     return (
       (filters.symbol === '' || stock.symbol.toLowerCase().includes(filters.symbol.toLowerCase())) &&
@@ -72,9 +85,9 @@ const StocksPage = () => {
           <StocksFilter filters={filters} setFilters={setFilters} applyFilters={applyFilters} />
         </Box>
         <Box width="70%">
-        <Typography variant="body2" color="textSecondary" align="right">
+          <Typography variant="body2" color="textSecondary" align="right">
             Last updated: {lastUpdated}
-        </Typography>
+          </Typography>
           <TableContainer component={Paper} style={{ maxHeight: 900 }}>
             <Table sx={{ tableLayout: 'fixed' }}>
               <TableHead>
@@ -128,7 +141,7 @@ const StocksPage = () => {
               </TableHead>
               <TableBody>
                 {sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((stock) => (
-                  <TableRow key={stock.symbol}>
+                  <TableRow key={stock.symbol} onClick={() => handleRowClick(stock.symbol)} style={{ cursor: 'pointer' }}>
                     <TableCell sx={{ width: columnWidths.symbol }}>{stock.symbol}</TableCell>
                     <TableCell sx={{ width: columnWidths.name }}>{stock.name}</TableCell>
                     <TableCell sx={{ width: columnWidths.sector }}>{stock.sector}</TableCell>
@@ -150,6 +163,7 @@ const StocksPage = () => {
           />
         </Box>
       </Box>
+      <StockDetail open={dialogOpen} onClose={handleCloseDialog} symbol={selectedStock} />
     </BaseBox>
   );
 };
