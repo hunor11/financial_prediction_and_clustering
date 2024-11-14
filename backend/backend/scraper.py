@@ -5,17 +5,17 @@ class CurrencyConverter:
     def __init__(self):
         # Initialize exchange rates upon instantiation
         self.eur_to_ron = self._get_rate("EUR", "RON")
-        self.ron_to_eur = self._get_rate("RON", "EUR")
-        self.usd_to_ron = self._get_rate("USD", "RON")
-        self.ron_to_usd = self._get_rate("RON", "USD")
         self.eur_to_usd = self._get_rate("EUR", "USD")
-        self.usd_to_eur = self._get_rate("USD", "EUR")
-        self.huf_to_ron = self._get_rate("HUF", "RON")
-        self.ron_to_huf = self._get_rate("RON", "HUF")
         self.eur_to_huf = self._get_rate("EUR", "HUF")
+        self.ron_to_eur = self._get_rate("RON", "EUR")
+        self.ron_to_usd = self._get_rate("RON", "USD")
+        self.ron_to_huf = self._get_rate("RON", "HUF")
+        self.huf_to_ron = self._get_rate("HUF", "RON")
         self.huf_to_eur = self._get_rate("HUF", "EUR")
-        self.usd_to_huf = self._get_rate("USD", "HUF")
         self.huf_to_usd = self._get_rate("HUF", "USD")
+        self.usd_to_ron = self._get_rate("USD", "RON")
+        self.usd_to_eur = self._get_rate("USD", "EUR")
+        self.usd_to_huf = self._get_rate("USD", "HUF")
 
     def _get_rate(self, from_currency: str, to_currency: str) -> float:
         """
