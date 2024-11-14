@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useStocks } from '../hooks/useStocks';
 import BaseBox from '../components/BaseBox';
 import StocksFilter from '../components/StocksFilter';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, TablePagination, TableSortLabel } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, TablePagination, TableSortLabel, Typography } from '@mui/material';
 
 const StocksPage = () => {
   const { data, error, isLoading } = useStocks();
@@ -63,6 +63,8 @@ const StocksPage = () => {
     }
   });
 
+  const lastUpdated = data.length > 0 ? data[0].last_updated : 'N/A';
+
   return (
     <BaseBox>
       <Box display="flex" width="100%" justifyContent={'space-evenly'}>
@@ -70,6 +72,9 @@ const StocksPage = () => {
           <StocksFilter filters={filters} setFilters={setFilters} applyFilters={applyFilters} />
         </Box>
         <Box width="70%">
+        <Typography variant="body2" color="textSecondary" align="right">
+            Last updated: {lastUpdated}
+        </Typography>
           <TableContainer component={Paper} style={{ maxHeight: 900 }}>
             <Table sx={{ tableLayout: 'fixed' }}>
               <TableHead>

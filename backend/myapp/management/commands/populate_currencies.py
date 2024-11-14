@@ -2,6 +2,7 @@
 from django.core.management.base import BaseCommand
 from myapp.models import CurrencyRate
 from backend.scraper import CurrencyConverter
+from django.utils import timezone
 
 
 class Command(BaseCommand):
@@ -19,7 +20,10 @@ class Command(BaseCommand):
                     CurrencyRate.objects.update_or_create(
                         base_currency=base_currency,
                         target_currency=target_currency,
-                        defaults={'rate': rate}
+                        defaults={
+                            'rate': rate,
+                            'last_updated': timezone.now(),  # Update this field
+                        }
                     )
                     self.stdout.write(self.style.SUCCESS(
                         f'Successfully saved rate for {base_currency} to {target_currency}'))

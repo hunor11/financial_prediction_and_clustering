@@ -1,4 +1,5 @@
 # myapp/management/commands/populate_stocks.py
+from django.utils import timezone
 from django.core.management.base import BaseCommand
 from myapp.models import Stock
 import yfinance as yf
@@ -23,6 +24,7 @@ class Command(BaseCommand):
                             'industry': stock_data.get('industry', ''),
                             'market_cap': stock_data.get('marketCap', None),
                             'current_price': stock_data.get('currentPrice', None),
+                            'last_updated': timezone.now(),
                         }
                     )
                     print(f"Saved {symbol}")
