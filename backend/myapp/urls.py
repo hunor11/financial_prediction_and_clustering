@@ -4,7 +4,7 @@ from .views import StockViewSet, CurrencyRateViewSet
 
 router = DefaultRouter()
 router.register(r'stocks', StockViewSet, basename='stock')
-router.register(r'currencyrates', CurrencyRateViewSet, basename='currencyrate')
+router.register(r'currencies', CurrencyRateViewSet, basename='currency')
 
 urlpatterns = [
     path('', include(router.urls)),
