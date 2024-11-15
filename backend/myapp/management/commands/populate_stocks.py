@@ -3,17 +3,16 @@ from django.utils import timezone
 from django.core.management.base import BaseCommand
 from myapp.models import Stock
 import yfinance as yf
-import csv
+import json
 
 
 class Command(BaseCommand):
     help = 'Populate the Stock model with S&P 500 stock data'
 
     def handle(self, *args, **options):
-        with open('../data/sp500_tickers.csv', 'r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                symbol = row['Symbol']
+        with open('../data/sp500_tickers.json', 'r') as file:
+            symbols = json.load(file)
+            for symbol in symbols:
                 try:
                     stock_data = yf.Ticker(symbol).info
                     Stock.objects.update_or_create(

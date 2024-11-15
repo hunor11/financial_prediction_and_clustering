@@ -29,7 +29,7 @@ class CurrencyRate(models.Model):
     base_currency = models.CharField(max_length=3)
     target_currency = models.CharField(max_length=3)
     rate = models.FloatField()
-    last_updated = models.DateTimeField(auto_now=True)  # Add this field
+    last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.base_currency} to {self.target_currency}: {self.rate}'

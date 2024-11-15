@@ -1,5 +1,6 @@
 # myapp/views.py
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
@@ -23,6 +24,28 @@ class StockViewSet(viewsets.ViewSet):
             return Response({"error": "Stock not found"}, status=status.HTTP_404_NOT_FOUND)
 
 
+# class CurrencyRateViewSet(viewsets.ModelViewSet):
+#     queryset = CurrencyRate.objects.all()
+#     serializer_class = CurrencyRateSerializer
+
+#     @action(detail=False, methods=['get'], url_path='symbol/(?P<symbol>[^/.]+)')
+#     def get_rates_by_symbol(self, request, symbol=None):
+#         if symbol:
+#             rates = CurrencyRate.objects.filter(base_currency=symbol.upper())
+#             serializer = self.get_serializer(rates, many=True)
+#             return Response(serializer.data)
+#         return Response({"error": "Symbol not provided"}, status=status.HTTP_400_BAD_REQUEST)
+
 class CurrencyRateViewSet(viewsets.ModelViewSet):
     queryset = CurrencyRate.objects.all()
     serializer_class = CurrencyRateSerializer
+
+    @action(detail=False, methods=['get'], url_path='symbol/(?P<symbol>[^/.]+)')
+    def get_rates_by_symbol(self, request, symbol=None):
+        if symbol:
+            rates = self.queryset.filter(base_currency=symbol.upper())
+            if not rates.exists():
+                return Response({"error": f"No rates found for base currency {symbol.upper()}"}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.get_serializer(rates, many=True)
+            return Response(serializer.data)
+        return Response({"error": "Symbol not provided"}, status=status.HTTP_400_BAD_REQUEST)
