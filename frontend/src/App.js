@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import StocksPage from "./pages/StocksPage";
 import CurrenciesPage from "./pages/CurrenciesPage";
 import NewsPage from "./pages/NewsPage";
+import ClusteringPage from "./pages/ClusteringPage";
 
 // COMPONENTS
 import Navbar from "./components/Navbar";
@@ -30,6 +31,7 @@ function App() {
               <Route path="/stocks" element={<StocksPage />} />
               <Route path="/currencies" element={<CurrenciesPage />} />
               <Route path="/news" element={<NewsPage />} />
+              <Route path="/clustering" element={<ClusteringPage />} />
             </Routes>
           </Box>
           <Footer />

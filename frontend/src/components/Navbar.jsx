@@ -25,6 +25,9 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate('/news')}>
             News
           </Button>
+          <Button color="inherit" onClick={() => navigate('/clustering')}>
+            Clustering
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
