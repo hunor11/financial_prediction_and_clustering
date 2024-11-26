@@ -22,6 +22,9 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate('/currencies')}>
             Currencies
           </Button>
+          <Button color="inherit" onClick={() => navigate('/news')}>
+            News
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
