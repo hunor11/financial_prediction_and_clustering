@@ -19,7 +19,15 @@ const StocksFilter = ({ filters, setFilters, applyFilters }) => {
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ 
+      padding: 2, 
+      display: 'flex', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      flexDirection: 'column',
+      height: '80%',
+      width: '80%',
+    }}>
       <TextField
         label="Symbol"
         name="symbol"
@@ -52,7 +60,7 @@ const StocksFilter = ({ filters, setFilters, applyFilters }) => {
         fullWidth
         margin="normal"
       />
-      <Typography gutterBottom>Price Range</Typography>
+      <Typography gutterBottom marginTop={'10px'}>Price Range: </Typography>
       <Slider
         value={filters.price}
         onChange={handlePriceChange}
@@ -60,8 +68,15 @@ const StocksFilter = ({ filters, setFilters, applyFilters }) => {
         min={0}
         max={1000}
         step={10}
+        sx={{ width: '95%' }}
       />
-      <Button variant="contained" color="primary" onClick={applyFilters} fullWidth>
+      <Button 
+        sx={{ marginTop: 4 }}
+        variant="contained" 
+        color="primary" 
+        onClick={applyFilters} 
+        fullWidth
+      >
         Apply Filters
       </Button>
     </Box>

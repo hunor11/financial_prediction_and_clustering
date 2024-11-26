@@ -17,11 +17,10 @@ const StocksPage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const columnWidths = {
-    symbol: '10%',
-    name: '30%',
-    sector: '20%',
-    industry: '30%',
-    current_price: '10%',
+    symbol: '15%',
+    name: '40%',
+    sector: '25%',
+    current_price: '20%',
   };
 
   if (isLoading) return <div>Loading...</div>;
@@ -80,7 +79,7 @@ const StocksPage = () => {
 
   return (
     <BaseBox>
-      <Box display="flex" width="100%" justifyContent={'space-evenly'}>
+      <Box display="flex" width="90%" justifyContent={'space-evenly'}>
         <Box width="20%">
           <StocksFilter filters={filters} setFilters={setFilters} applyFilters={applyFilters} />
         </Box>
@@ -119,15 +118,6 @@ const StocksPage = () => {
                       Sector
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: columnWidths.industry }}>
-                    <TableSortLabel
-                      active={orderBy === 'industry'}
-                      direction={orderBy === 'industry' ? order : 'asc'}
-                      onClick={() => handleRequestSort('industry')}
-                    >
-                      Industry
-                    </TableSortLabel>
-                  </TableCell>
                   <TableCell sx={{ fontWeight: 'bold', backgroundColor: '#f5f5f5', width: columnWidths.current_price }}>
                     <TableSortLabel
                       active={orderBy === 'current_price'}
@@ -145,7 +135,6 @@ const StocksPage = () => {
                     <TableCell sx={{ width: columnWidths.symbol }}>{stock.symbol}</TableCell>
                     <TableCell sx={{ width: columnWidths.name }}>{stock.name}</TableCell>
                     <TableCell sx={{ width: columnWidths.sector }}>{stock.sector}</TableCell>
-                    <TableCell sx={{ width: columnWidths.industry }}>{stock.industry}</TableCell>
                     <TableCell sx={{ width: columnWidths.current_price }}>{stock.current_price}$</TableCell>
                   </TableRow>
                 ))}
