@@ -62,6 +62,7 @@ class Command(BaseCommand):
                             'founded': stock_data.get('founded', None),
                             'pe_ratio': self.clean_float(stock_data.get('trailingPE', None)),
                             'dividend_yield': self.clean_float(stock_data.get('dividendYield', None)),
+                            'eps': stock_data.get('trailingEps', None),
                         }
                     )
                     self.stdout.write(self.style.SUCCESS(
