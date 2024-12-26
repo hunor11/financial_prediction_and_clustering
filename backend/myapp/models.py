@@ -25,6 +25,25 @@ class Stock(models.Model):
         return self.symbol
 
 
+class StockPrice(models.Model):
+    stock = models.ForeignKey(
+        Stock, on_delete=models.CASCADE, related_name="historical_prices")
+    date = models.DateField()
+    open = models.FloatField(null=True, blank=True)
+    high = models.FloatField(null=True, blank=True)
+    low = models.FloatField(null=True, blank=True)
+    close = models.FloatField(null=True, blank=True)
+    volume = models.BigIntegerField()
+
+    class Meta:
+        # Ensure no duplicate entries for the same stock and date
+        unique_together = ('stock', 'date')
+        ordering = ['-date']  # Order by date descending
+
+    def __str__(self):
+        return f"{self.stock.symbol} - {self.date}"
+
+
 class CurrencyRate(models.Model):
     base_currency = models.CharField(max_length=3)
     target_currency = models.CharField(max_length=3)

@@ -28,6 +28,8 @@ from .serializers import StockListSerializer, StockDetailSerializer, CurrencyRat
 #             return Response({"error": "Stock not found"}, status=status.HTTP_404_NOT_FOUND)
 
 class StockViewSet(viewsets.ViewSet):
+    # lookup_field = 'symbol'  # Allows fetching by stock symbol
+
     def list(self, request):
         queryset = Stock.objects.all()
         serializer = StockListSerializer(queryset, many=True)
@@ -37,6 +39,8 @@ class StockViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         try:
             stock = Stock.objects.get(symbol=pk.upper())
+            # prices = stock.historical_prices.all()
+
             serializer = StockDetailSerializer(stock)
             # data = json.dumps(serializer.data, cls=CustomJSONEncoder)
             return Response(serializer.data)
