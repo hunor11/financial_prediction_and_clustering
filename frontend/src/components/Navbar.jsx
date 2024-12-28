@@ -7,7 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <AppBar 
+    <AppBar
       position="static"
       height={'10vh'}
     >
@@ -27,6 +27,9 @@ const Navbar = () => {
           </Button>
           <Button color="inherit" onClick={() => navigate('/clustering')}>
             Clustering
+          </Button>
+          <Button color="inherit" onClick={() => navigate('/predictions')}>
+            Predictions
           </Button>
         </Box>
       </Toolbar>

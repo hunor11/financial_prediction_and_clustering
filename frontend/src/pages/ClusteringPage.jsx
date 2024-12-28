@@ -32,7 +32,7 @@ const ClusteringPage = () => {
         }
         return null;
       })
-      .filter((stock) => stock !== null);
+      .filter((stock) => stock != null);
 
     setFilteredData(validStocks.map((i) => data[i])); // Save valid stock data
 

@@ -9,11 +9,13 @@ import StocksPage from "./pages/StocksPage";
 import CurrenciesPage from "./pages/CurrenciesPage";
 import NewsPage from "./pages/NewsPage";
 import ClusteringPage from "./pages/ClusteringPage";
+import PredictionsPage from "./pages/PredictionsPage";
 
 // COMPONENTS
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Box } from "@mui/material";
+
 
 import "./App.css";
 
@@ -32,6 +34,7 @@ function App() {
               <Route path="/currencies" element={<CurrenciesPage />} />
               <Route path="/news" element={<NewsPage />} />
               <Route path="/clustering" element={<ClusteringPage />} />
+              <Route path="/predictions" element={<PredictionsPage />} />
             </Routes>
           </Box>
           <Footer />

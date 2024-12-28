@@ -5,6 +5,7 @@ import axios from 'axios';
 const fetchFinancialNews = async ({ queryKey }) => {
   const [_, query, page] = queryKey;
   const apiKey = process.env.REACT_APP_API_KEY_NEWS;
+  console.log(apiKey);
   if (!apiKey) {
     throw new Error('API key is not defined');
   }
