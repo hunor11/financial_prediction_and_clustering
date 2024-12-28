@@ -11,6 +11,11 @@ from rest_framework import status
 from .models import Stock, CurrencyRate
 from .serializers import StockListSerializer, StockDetailSerializer, CurrencyRateSerializer
 
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+
+import yfinance as yf
+
 
 # class StockViewSet(viewsets.ViewSet):
 #     def list(self, request):
@@ -42,6 +47,50 @@ class StockViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         except Stock.DoesNotExist:
             return Response({"error": "Stock not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+    @action(detail=False, methods=['get'], url_path='predict')
+    def predict(self, request):
+        symbol = request.query_params.get('symbol')
+        duration = int(request.query_params.get('duration', 5))  # Default to 5 days
+
+        if not symbol:
+            return Response({"error": "Stock symbol is required"}, status=400)
+
+        # Fetch historical data if not available in the DB
+        try:
+            stock = Stock.objects.get(symbol=symbol.upper())
+            # Fetch historical prices using Yahoo Finance if not present
+            historical_data = yf.download(symbol, period="1y", interval="1d")  # 1 year of data
+            historical_prices = historical_data['Close'].values.T  # Get the closing prices
+
+            # Update your Stock instance with the historical data
+            historical_prices = historical_prices[0]
+            stock.historical_prices = historical_prices
+            stock.save()
+            
+            if len(historical_prices) < 2:
+                return Response({"error": "Not enough historical data to make a prediction"}, status=400)
+        except Stock.DoesNotExist:
+            return Response({"error": "Stock not found"}, status=404)
+
+        # Extract historical prices and create the model
+        prices = historical_prices
+        days = list(range(1, len(prices) + 1))
+
+        # Train a linear regression model
+        model = LinearRegression()
+        X = pd.DataFrame(days)
+        y = pd.Series(prices)
+        model.fit(X, y)
+
+        # Predict future prices
+        future_days = [[len(prices) + i] for i in range(1, duration + 1)]
+        predicted_prices = model.predict(future_days)
+
+        return Response({
+            "symbol": symbol.upper(),
+            "predicted_prices": list(predicted_prices)
+        })
 
 
 class CurrencyRateViewSet(viewsets.ModelViewSet):
@@ -57,3 +106,5 @@ class CurrencyRateViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(rates, many=True)
             return Response(serializer.data)
         return Response({"error": "Symbol not provided"}, status=status.HTTP_400_BAD_REQUEST)
+    
+
