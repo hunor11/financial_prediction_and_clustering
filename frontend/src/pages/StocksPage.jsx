@@ -41,7 +41,11 @@ const StocksPage = () => {
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const baseCurrency = "USD";
 
-  const { data: cdata, error: cerror, isLoading: cisLoading } = useCurrencies(baseCurrency);
+  const {
+    data: cdata,
+    error: cerror,
+    isLoading: cisLoading,
+  } = useCurrencies(baseCurrency);
 
   const columnWidths = {
     symbol: "15%",
@@ -90,22 +94,24 @@ const StocksPage = () => {
 
     // console.log(baseCurrency, selectedCurrency)
     if (baseCurrency === selectedCurrency) {
-      console.log("they match")
+      console.log("they match");
       return price;
     }
 
-    let changed = 0
+    let changed = 0;
 
     cdata.map((rate) => {
-
       if (rate.target_currency == tcurrency) {
-        console.log(rate.target_currency, tcurrency + " sakkor " + rate.rate + ' ' + price * rate.rate);
+        console.log(
+          rate.target_currency,
+          tcurrency + " sakkor " + rate.rate + " " + price * rate.rate
+        );
         changed = (price * rate.rate).toFixed(2);
       }
-    })
+    });
 
     return changed;
-  }
+  };
 
   const filteredData = data.filter((stock) => {
     return (
@@ -137,23 +143,32 @@ const StocksPage = () => {
   return (
     <BaseBox>
       <Box display="flex" width="90%" justifyContent={"space-evenly"}>
-        <Box width="20%">
+        <Box
+          width="20%"
+          height={"90%"}
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"space-between"}
+        >
           <StocksFilter
             filters={filters}
             setFilters={setFilters}
             applyFilters={applyFilters}
           />
-          <FormControl fullWidth margin="normal">
-            <Select
-              value={selectedCurrency}
-              onChange={(e) => setSelectedCurrency(e.target.value)}
-            >
-              <MenuItem value="USD">Display price in: USD</MenuItem>
-              <MenuItem value="EUR">Display price in: EUR</MenuItem>
-              <MenuItem value="HUF">Display price in: HUF</MenuItem>
-              <MenuItem value="RON">Display price in: RON</MenuItem>
-            </Select>
-          </FormControl>
+          <Box>
+            <hr width={"100%"} />
+            <FormControl fullWidth margin="normal">
+              <Select
+                value={selectedCurrency}
+                onChange={(e) => setSelectedCurrency(e.target.value)}
+              >
+                <MenuItem value="USD">Display price in: USD</MenuItem>
+                <MenuItem value="EUR">Display price in: EUR</MenuItem>
+                <MenuItem value="HUF">Display price in: HUF</MenuItem>
+                <MenuItem value="RON">Display price in: RON</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </Box>
         <Box width="70%">
           <Typography variant="body2" color="textSecondary" align="right">
@@ -244,7 +259,12 @@ const StocksPage = () => {
                         {stock.sector}
                       </TableCell>
                       <TableCell sx={{ width: columnWidths.current_price }}>
-                        {convertPrice(stock.current_price, selectedCurrency, cdata)} {selectedCurrency}
+                        {convertPrice(
+                          stock.current_price,
+                          selectedCurrency,
+                          cdata
+                        )}{" "}
+                        {selectedCurrency}
                         {/* {stock.current_price}$ */}
                       </TableCell>
                     </TableRow>
