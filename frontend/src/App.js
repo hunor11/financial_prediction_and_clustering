@@ -31,7 +31,9 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/stocks" element={<StocksPage />} />
-              <Route path="/currencies" element={<CurrenciesPage />} />
+
+              {/* <Route path="/currencies" element={<CurrenciesPage />} /> */}
+
               <Route path="/news" element={<NewsPage />} />
               <Route path="/clustering" element={<ClusteringPage />} />
               <Route path="/predictions" element={<PredictionsPage />} />

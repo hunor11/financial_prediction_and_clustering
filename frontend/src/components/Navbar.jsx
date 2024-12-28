@@ -19,9 +19,9 @@ const Navbar = () => {
           <Button color="inherit" onClick={() => navigate('/stocks')}>
             Stocks
           </Button>
-          <Button color="inherit" onClick={() => navigate('/currencies')}>
+          {/* <Button color="inherit" onClick={() => navigate('/currencies')}>
             Currencies
-          </Button>
+          </Button> */}
           <Button color="inherit" onClick={() => navigate('/news')}>
             News
           </Button>
