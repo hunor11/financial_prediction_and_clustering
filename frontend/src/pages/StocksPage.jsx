@@ -1,6 +1,7 @@
 // src/pages/StocksPage.jsx
 import React, { useState } from "react";
 import { useStocks } from "../hooks/useStocks";
+import { useCurrencies } from "../hooks/useCurrencies";
 import BaseBox from "../components/BaseBox";
 import StocksFilter from "../components/StocksFilter";
 import StockDetail from "../components/StockDetail";
@@ -16,6 +17,10 @@ import {
   TablePagination,
   TableSortLabel,
   Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 
 const StocksPage = () => {
@@ -33,6 +38,10 @@ const StocksPage = () => {
   });
   const [selectedStock, setSelectedStock] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
+  const baseCurrency = "USD";
+
+  const { data: cdata, error: cerror, isLoading: cisLoading } = useCurrencies(baseCurrency);
 
   const columnWidths = {
     symbol: "15%",
@@ -43,6 +52,9 @@ const StocksPage = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading stocks</div>;
+
+  if (cisLoading) return <div>Loading currencies...</div>;
+  if (cerror) return <div>Currency error...</div>;
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -72,6 +84,28 @@ const StocksPage = () => {
     setDialogOpen(false);
     setSelectedStock(null);
   };
+
+  const convertPrice = (price, tcurrency, cdata) => {
+    // if (!currencyRates || !currencyRates.length) return price;
+
+    // console.log(baseCurrency, selectedCurrency)
+    if (baseCurrency === selectedCurrency) {
+      console.log("they match")
+      return price;
+    }
+
+    let changed = 0
+
+    cdata.map((rate) => {
+
+      if (rate.target_currency == tcurrency) {
+        console.log(rate.target_currency, tcurrency + " sakkor " + rate.rate + ' ' + price * rate.rate);
+        changed = (price * rate.rate).toFixed(2);
+      }
+    })
+
+    return changed;
+  }
 
   const filteredData = data.filter((stock) => {
     return (
@@ -109,6 +143,17 @@ const StocksPage = () => {
             setFilters={setFilters}
             applyFilters={applyFilters}
           />
+          <FormControl fullWidth margin="normal">
+            <Select
+              value={selectedCurrency}
+              onChange={(e) => setSelectedCurrency(e.target.value)}
+            >
+              <MenuItem value="USD">Display price in: USD</MenuItem>
+              <MenuItem value="EUR">Display price in: EUR</MenuItem>
+              <MenuItem value="HUF">Display price in: HUF</MenuItem>
+              <MenuItem value="RON">Display price in: RON</MenuItem>
+            </Select>
+          </FormControl>
         </Box>
         <Box width="70%">
           <Typography variant="body2" color="textSecondary" align="right">
@@ -175,7 +220,7 @@ const StocksPage = () => {
                       direction={orderBy === "current_price" ? order : "asc"}
                       onClick={() => handleRequestSort("current_price")}
                     >
-                      Current Price
+                      Current Price ({selectedCurrency})
                     </TableSortLabel>
                   </TableCell>
                 </TableRow>
@@ -199,7 +244,8 @@ const StocksPage = () => {
                         {stock.sector}
                       </TableCell>
                       <TableCell sx={{ width: columnWidths.current_price }}>
-                        {stock.current_price}$
+                        {convertPrice(stock.current_price, selectedCurrency, cdata)} {selectedCurrency}
+                        {/* {stock.current_price}$ */}
                       </TableCell>
                     </TableRow>
                   ))}
