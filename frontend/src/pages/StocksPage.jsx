@@ -1,6 +1,7 @@
 // src/pages/StocksPage.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStocks } from "../hooks/useStocks";
+import { useCurrencies } from "../hooks/useCurrencies";
 import BaseBox from "../components/BaseBox";
 import StocksFilter from "../components/StocksFilter";
 import StockDetail from "../components/StockDetail";
@@ -20,6 +21,7 @@ import {
 
 const StocksPage = () => {
   const { data, error, isLoading } = useStocks();
+
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("symbol");
   const [page, setPage] = useState(0);
@@ -28,11 +30,54 @@ const StocksPage = () => {
     symbol: "",
     name: "",
     sector: "",
-    industry: "",
     price: [0, 1000],
   });
   const [selectedStock, setSelectedStock] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [baseCurrency, setBaseCurrency] = useState("USD");
+  const [rates, setRates] = useState({
+    HUF: 1,
+    RON: 1,
+    EUR: 1,
+    USD: 1,
+  });
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const {
+    data: currency,
+    error: currencyError,
+    isLoading: currencyLoading,
+  } = useCurrencies("USD");
+  const [updatedData, setUpdatedData] = useState([]);
+
+  useEffect(() => {
+    if (currency) {
+      console.log(currency);
+      const newRates = {
+        HUF: currency.find((rate) => rate.target_currency === "HUF").rate,
+        RON: currency.find((rate) => rate.target_currency === "RON").rate,
+        EUR: currency.find((rate) => rate.target_currency === "EUR").rate,
+        USD: 1,
+      };
+      console.log(newRates);
+      setRates(newRates);
+    }
+  }, [currency]);
+
+  useEffect(() => {
+    if (data) {
+      const newData = data.map((stock) => ({
+        ...stock,
+        current_price: (stock.current_price * rates[baseCurrency]).toFixed(2),
+      }));
+      setUpdatedData(newData);
+      setMaxPrice(
+        newData.reduce(
+          (max, stock) => Math.max(max, parseFloat(stock.current_price)),
+          0
+        )
+      );
+    }
+  }, [data, rates, baseCurrency]);
 
   const columnWidths = {
     symbol: "15%",
@@ -73,7 +118,7 @@ const StocksPage = () => {
     setSelectedStock(null);
   };
 
-  const filteredData = data.filter((stock) => {
+  const filteredData = updatedData.filter((stock) => {
     return (
       (filters.symbol === "" ||
         stock.symbol.toLowerCase().includes(filters.symbol.toLowerCase())) &&
@@ -108,6 +153,9 @@ const StocksPage = () => {
             filters={filters}
             setFilters={setFilters}
             applyFilters={applyFilters}
+            baseCurrency={baseCurrency}
+            setBaseCurrency={setBaseCurrency}
+            maxPrice={maxPrice}
           />
         </Box>
         <Box width="70%">
@@ -199,7 +247,7 @@ const StocksPage = () => {
                         {stock.sector}
                       </TableCell>
                       <TableCell sx={{ width: columnWidths.current_price }}>
-                        {stock.current_price}$
+                        {stock.current_price}
                       </TableCell>
                     </TableRow>
                   ))}
