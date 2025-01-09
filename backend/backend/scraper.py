@@ -28,7 +28,8 @@ class CurrencyConverter:
                 f"Failed to retrieve data from XE for {from_currency} to {to_currency}")
 
         soup = BeautifulSoup(response.content, 'html.parser')
-        rate_element = soup.find("p", class_="sc-63d8b7e3-1 bMdPIi")
+        # rate_element = soup.find("p", class_="sc-63d8b7e3-1 bMdPIi")
+        rate_element = soup.find("p", class_="sc-b5d1d4ba-1 bPeOTN")
 
         if not rate_element:
             raise Exception(

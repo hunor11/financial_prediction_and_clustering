@@ -1,6 +1,6 @@
 // src/components/Footer.jsx
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React from "react";
+import { Box, Typography } from "@mui/material";
 
 const Footer = () => {
   return (
@@ -9,19 +9,20 @@ const Footer = () => {
       sx={{
         py: 2,
         px: 2,
-        mt: 'auto',
-        backgroundColor: '#f5f5f5',
-        textAlign: 'center',
+        mt: "auto",
+        backgroundColor: "#f5f5f5",
+        textAlign: "center",
       }}
     >
       <Typography variant="body2" color="textSecondary">
-        Authors: Ács Hunor, Magyari-Sáska Attila
+        Author: Ács Hunor
       </Typography>
       <Typography variant="body2" color="textSecondary">
-        Babes-Bolyai University, Faculty of Mathematics and Informatics
+        Babes-Bolyai University, Faculty of Mathematics and Informatics Data
+        Science in Industry and Society, 2024-2025
       </Typography>
       <Typography variant="body2" color="textSecondary">
-        Data Science in Industry and Society
+        Project for the course Data Modelling
       </Typography>
     </Box>
   );
