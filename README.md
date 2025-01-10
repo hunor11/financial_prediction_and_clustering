@@ -1,2 +1,2 @@
-# Sentiment Analysis Investment Insights
+# Stocks NOW!
 
